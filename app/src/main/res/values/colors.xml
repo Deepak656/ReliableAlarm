@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 Color Palette -->
+    <color name="md_theme_primary">#FF6B4EFF</color>
+    <color name="md_theme_primary_dark">#FF5634FF</color>
+    <color name="md_theme_primary_light">#FF8F7AFF</color>
+
+    <color name="md_theme_secondary">#FF00D9FF</color>
+    <color name="md_theme_secondary_dark">#FF00B8D4</color>
+
+    <!-- Streak Colors -->
+    <color name="streak_fire">#FFFF6B35</color>
+    <color name="streak_fire_dark">#FFFF4500</color>
+    <color name="streak_gold">#FFFFD700</color>
+
+    <!-- Success & Progress -->
+    <color name="success_green">#FF00E676</color>
+    <color name="success_green_light">#FF69F0AE</color>
+    <color name="success_gradient_start">#FF00E676</color>
+    <color name="success_gradient_end">#FF00C853</color>
+
+    <!-- Miss/Error -->
+    <color name="miss_red">#FFFF5252</color>
+    <color name="miss_red_light">#FFFF8A80</color>
+
+    <!-- Neutral -->
+    <color name="neutral_gray">#FFE0E0E0</color>
+    <color name="neutral_gray_light">#FFF5F5F5</color>
+
+    <!-- Background -->
+    <color name="background_main">#FFF8F9FE</color>
+    <color name="surface_card">#FFFFFFFF</color>
+    <color name="surface_elevated">#FFFFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FF1A1A1A</color>
+    <color name="text_secondary">#FF666666</color>
+    <color name="text_tertiary">#FF999999</color>
+
+    <!-- Legacy colors (keep for compatibility) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="alarm_background">#FF1976D2</color>
+    <color name="warning_background">#FFFFEBEE</color>
+    <color name="background">#F6F7FB</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="warning_red">#D32F2F</color>
+</resources>

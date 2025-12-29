@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_streak"
+        android:title="Streak"
+        android:icon="@drawable/ic_streak"/>
+    <item
+        android:id="@+id/nav_alarms"
+        android:title="Alarms"
+        android:icon="@drawable/ic_alarm"/>
+
+    <item
+        android:id="@+id/nav_tasks"
+        android:title="Tasks"
+        android:icon="@drawable/ic_tasks"/>
+
+    <item
+        android:id="@+id/nav_reliability"
+        android:title="Reliability"
+        android:icon="@drawable/ic_shield"/>
+
+</menu>

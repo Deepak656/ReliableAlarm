@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Math Task -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Math Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <Switch
+            android:id="@+id/mathEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable math problems"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of problems"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/mathCountSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="9"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/mathCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 problems"
+            android:layout_gravity="center"/>
+
+        <!-- Step Task -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Walking Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/stepEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable step counter"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Required steps"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/stepCountSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="19"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/stepCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 steps"
+            android:layout_gravity="center"/>
+
+        <!-- Shake Task -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shake Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/shakeEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable shake detection"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration (seconds)"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/shakeDurationSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="11"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/shakeDurationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 seconds"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intensity"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/shakeIntensitySeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="9"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/shakeIntensityText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Level 5"
+            android:layout_gravity="center"
+            android:layout_marginBottom="32dp"/>
+
+    </LinearLayout>
+</ScrollView>
