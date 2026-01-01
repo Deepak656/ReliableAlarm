@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.reliablealarm.app.R
-import com.reliablealarm.app.config.WakeTaskConfig
+import com.reliablealarm.app.domain.models.Alarm
 import kotlin.math.sqrt
 
 /**
@@ -57,23 +57,20 @@ class StepWakeTask : WakeTask, SensorEventListener {
     override fun getInstructions(): String =
         "Take $requiredSteps steps to reduce alarm volume"
 
-    override fun initialize(context: Context, onComplete: () -> Unit) {
+    override fun initialize(context: Context, alarm: Alarm, onComplete: () -> Unit) {
         this.onComplete = onComplete
 
-        val config = WakeTaskConfig(context)
-        this.requiredSteps = config.stepCount
+        val config = alarm.taskSettings["task_steps"] as? TaskConfig.StepConfig
+        this.requiredSteps = config?.stepsRequired ?: 20
 
         currentSteps = 0
         completed = false
         lastStepTime = 0
 
-        // Initialize sensor manager
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
         if (accelerometer == null) {
-            android.util.Log.e(TAG, "No accelerometer sensor available")
-            // Fallback: consider task completed if no sensor
             completed = true
             onComplete()
         }

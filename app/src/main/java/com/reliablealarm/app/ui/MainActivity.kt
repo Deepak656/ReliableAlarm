@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var inactiveAlarmsSection: LinearLayout
     private lateinit var inactiveAlarmsRecyclerView: RecyclerView
     private lateinit var inactiveAlarmsHeader: TextView
-    private lateinit var emptyStateText: LinearLayout
+    private lateinit var emptyStateLayout: LinearLayout
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomNav: BottomNavigationView
 
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         inactiveAlarmsSection = findViewById(R.id.inactiveAlarmsSection)
         inactiveAlarmsRecyclerView = findViewById(R.id.inactiveAlarmsRecyclerView)
         inactiveAlarmsHeader = findViewById(R.id.inactiveAlarmsHeader)
-        emptyStateText = findViewById(R.id.emptyStateText)
+        emptyStateLayout = findViewById(R.id.emptyStateText)
         fab = findViewById(R.id.fab)
         bottomNav = findViewById(R.id.bottomNav)
     }
@@ -129,12 +129,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_tasks -> {
                     // TODO: Navigate to tasks
-                    startActivity(Intent(this, WakeTaskOptionsActivity::class.java))
+                    Toast.makeText(this, "Tasks coming soon", Toast.LENGTH_SHORT).show()
                     false
                 }
                 R.id.nav_reliability -> {
                     // TODO: Navigate to reliability score
-                    startActivity(Intent(this, ReliabilityOptionsActivity::class.java))
+                    Toast.makeText(this, "Reliability score coming soon", Toast.LENGTH_SHORT).show()
                     false
                 }
                 else -> false
@@ -278,7 +278,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showEmptyState() {
-        emptyStateText.visibility = View.VISIBLE
+        emptyStateLayout.visibility = View.VISIBLE
         activeAlarmsSection.visibility = View.GONE
         inactiveAlarmsSection.visibility = View.GONE
         streakPreviewContainer.visibility = View.GONE
@@ -288,7 +288,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideEmptyState() {
-        emptyStateText.visibility = View.GONE
+        emptyStateLayout.visibility = View.GONE
     }
 
     private fun toggleAlarm(alarm: Alarm, enabled: Boolean) {

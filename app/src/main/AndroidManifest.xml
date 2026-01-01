@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- camera -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+
     <!-- Audio control permissions -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -27,7 +31,7 @@
 
     <!-- Disable battery optimizations for critical alarms -->
     <uses-permission android:name="android.permission.REQUEST_SCHEDULE_EXACT_ALARM" />
-
+    <uses-feature android:name="android.hardware.camera.any"/>
     <application
         android:name=".AlarmApplication"
         android:allowBackup="true"
@@ -38,6 +42,7 @@
         android:theme="@style/Theme.ReliableAlarm"
         android:requestLegacyExternalStorage="false"
         tools:targetApi="31">
+        <activity android:name=".ui.preview.TaskPreviewActivity"/>
 
         <!-- Main Entry Point -->
         <activity
@@ -66,6 +71,73 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".ui.AlarmListActivity" />
+
+        <!-- ========== WAKE TASK CONFIG ACTIVITIES - ADD THESE ========== -->
+
+        <!-- Math Challenge Config -->
+        <activity
+            android:name=".ui.config.MathConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+
+        <!-- Step Challenge Config -->
+        <activity
+            android:name=".ui.config.StepConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+
+        <!-- Shake Challenge Config -->
+        <activity
+            android:name=".ui.config.ShakeConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+
+        <!-- QR Code Challenge Config -->
+        <activity
+
+            android:name=".ui.config.QrConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+        <!-- Tap Task Config -->
+        <activity
+
+            android:name=".ui.config.TapTaskConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+        <!-- Typing Task Config -->
+        <activity
+
+            android:name=".ui.config.TypingConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+        <!-- Colors Balls Task Config -->
+        <activity
+
+            android:name=".ui.config.ColorBallsConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+        <!-- Pop Ballons Task Config -->
+        <activity
+            android:name=".ui.config.PopBalloonsConfigActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.AlarmEditActivity" />
+        <!-- ========== END WAKE TASK CONFIG ACTIVITIES ========== -->
 
         <!-- Reliability Options -->
         <activity

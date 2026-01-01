@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.reliablealarm.app.R
-import com.reliablealarm.app.config.WakeTaskConfig
+import com.reliablealarm.app.domain.models.Alarm
 import kotlin.random.Random
 
 /**
@@ -46,16 +46,18 @@ class MathWakeTask : WakeTask {
     override fun getInstructions(): String =
         "Solve $problemCount math problems to reduce alarm volume"
 
-    override fun initialize(context: Context, onComplete: () -> Unit) {
+    override fun initialize(context: Context, alarm: Alarm, onComplete: () -> Unit) {
         this.onComplete = onComplete
 
-        val config = WakeTaskConfig(context)
-        this.problemCount = config.mathProblemCount
-        this.difficulty = config.mathDifficulty
+        val config = alarm.taskSettings["task_math"] as? TaskConfig.MathConfig
+
+        this.problemCount = config?.problemCount ?: 3
+        this.difficulty = config?.difficulty ?: "MEDIUM"
 
         currentProblem = 0
         completed = false
     }
+
 
     override fun createView(container: ViewGroup): View {
         val inflater = LayoutInflater.from(container.context)

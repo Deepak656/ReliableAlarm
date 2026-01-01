@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:colorBackground">
-
+    android:layout_height="match_parent">
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
-        <!-- Time -->
+        
+        <!-- Time Picker -->
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="wrap_content"
@@ -18,56 +18,82 @@
             android:layout_gravity="center"
             android:timePickerMode="spinner"
             android:layout_marginBottom="24dp"/>
-
-        <!-- Repeat -->
+        
+        <!-- Repeat Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repeat"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+        
         <LinearLayout
-            android:id="@+id/repeatRow"
+            android:id="@+id/repeatGrid"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="8dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Repeat"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/repeatSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Never"
-                android:textColor="?attr/colorPrimary"/>
-        </LinearLayout>
-
+            android:gravity="center"/>
+        
+        <!-- Wake Tasks Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wake Tasks"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"/>
+        
+        <LinearLayout
+            android:id="@+id/taskGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+        
         <!-- Label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Label"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"/>
+        
         <EditText
             android:id="@+id/labelEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Label"
-            android:inputType="text"
-            android:layout_marginTop="16dp"/>
-
+            android:hint="e.g., Morning Alarm"
+            android:inputType="text"/>
+        
         <!-- Message -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"/>
+        
         <EditText
             android:id="@+id/messageEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Message"
-            android:inputType="text"
-            android:layout_marginTop="12dp"/>
-
-        <!-- Save -->
+            android:hint="e.g., Time to wake up!"
+            android:inputType="text"/>
+        
+        <!-- Save Button -->
         <Button
             android:id="@+id/saveButton"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Save"
-            android:layout_marginTop="32dp"/>
-
+            android:layout_height="56dp"
+            android:text="Save Alarm"
+            android:textSize="16sp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"/>
+        
     </LinearLayout>
 </ScrollView>

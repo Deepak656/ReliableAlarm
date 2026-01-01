@@ -1,5 +1,6 @@
 package com.reliablealarm.app.domain.models
 
+import com.reliablealarm.app.waketasks.TaskConfig
 import java.util.*
 
 /**
@@ -17,8 +18,8 @@ import java.util.*
  */
 data class Alarm(
     val id: String = UUID.randomUUID().toString(),
-    val name: String = "Morning Alarm",
-    val message: String = "Office Time!",
+    val name: String = "Alarm",
+    val message: String = "Wake Up!",
     val hour: Int = 8, // 24-hour format: 0-23
     val minute: Int = 0, // 0-59
     val repeatMonday: Boolean = false,
@@ -29,6 +30,11 @@ data class Alarm(
     val repeatSaturday: Boolean = false,
     val repeatSunday: Boolean = false,
     val isEnabled: Boolean = true,
+    // ⭐ NEW ⭐
+    val wakeTasks: List<String> = emptyList(),
+
+    // ⭐ NEW ⭐ keyed by WakeTaskType.key
+    val taskSettings: Map<String, TaskConfig> = emptyMap(),
     val createdAt: Long = System.currentTimeMillis(),
     val lastModified: Long = System.currentTimeMillis()
 ) {

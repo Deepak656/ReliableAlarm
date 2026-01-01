@@ -8,16 +8,19 @@
 
     <!-- MAIN SCROLLABLE CONTENT -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_m">
+            android:padding="@dimen/spacing_m"
+            android:paddingBottom="160dp">
 
             <!-- HEADER CARD WITH STATS AND STREAK -->
             <com.google.android.material.card.MaterialCardView
@@ -187,18 +190,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- FLOATING ACTION BUTTON -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/spacing_m"
-        android:layout_marginBottom="96dp"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="@android:color/white"
-        app:backgroundTint="@color/md_theme_primary"/>
-
     <!-- BOTTOM NAVIGATION -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
@@ -211,5 +202,19 @@
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"/>
+
+    <!-- FLOATING ACTION BUTTON - MUST BE AFTER BOTTOM NAV FOR PROPER LAYERING -->
+<com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_anchor="@id/bottomNav"
+    app:layout_anchorGravity="top|end"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="20dp"
+    android:src="@android:drawable/ic_input_add"
+    app:tint="@android:color/white"
+    app:backgroundTint="@color/md_theme_primary"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

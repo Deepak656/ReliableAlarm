@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.reliablealarm.app.R
-import com.reliablealarm.app.config.WakeTaskConfig
+import com.reliablealarm.app.domain.models.Alarm
 import kotlin.math.sqrt
 
 /**
@@ -62,28 +62,24 @@ class ShakeWakeTask : WakeTask, SensorEventListener {
     override fun getInstructions(): String =
         "Shake your phone vigorously for $requiredDuration seconds"
 
-    override fun initialize(context: Context, onComplete: () -> Unit) {
+    override fun initialize(context: Context, alarm: Alarm, onComplete: () -> Unit) {
         this.onComplete = onComplete
 
-        val config = WakeTaskConfig(context)
-        this.requiredDuration = config.shakeDuration
-        this.intensityThreshold = config.shakeIntensity
+        val config = alarm.taskSettings["task_shake"] as? TaskConfig.ShakeConfig
 
-        // Calculate shake threshold based on intensity setting
-        // WHY: Higher intensity = need more vigorous shaking
-        // Scale: 1 (easy) = 400, 10 (hard) = 2000
+        this.requiredDuration = config?.durationSeconds ?: 10
+        this.intensityThreshold = config?.intensity ?: 5
+
         shakeThreshold = 400f + (intensityThreshold - 1) * 160f
 
         shakeDuration = 0f
         completed = false
         lastUpdate = 0
 
-        // Initialize sensor
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
         if (accelerometer == null) {
-            android.util.Log.e(TAG, "No accelerometer sensor available")
             completed = true
             onComplete()
         }

@@ -7,7 +7,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.OnBackPressedCallback
 import com.reliablealarm.app.R
@@ -51,10 +50,10 @@ class AlarmTriggerActivity : AppCompatActivity() {
     private lateinit var taskContainer: LinearLayout
     private lateinit var dismissButton: Button
 
-    private var alarm: Alarm? = null
-    private var alarmId: String? = null
-
+    private lateinit var alarm: Alarm
+    private lateinit var alarmRepository: AlarmRepository
     private lateinit var wakeTaskManager: WakeTaskManager
+
     private val activeTasks = mutableListOf<WakeTask>()
     private val completedTasks = mutableSetOf<Int>()
 
@@ -77,8 +76,11 @@ class AlarmTriggerActivity : AppCompatActivity() {
         taskContainer = findViewById(R.id.taskContainer)
         dismissButton = findViewById(R.id.dismissButton)
 
+        // Initialize repository
+        alarmRepository = AlarmRepository(this)
+
         // Get alarm ID from intent
-        alarmId = intent.getStringExtra(AlarmScheduler.EXTRA_ALARM_ID)
+        val alarmId = intent.getStringExtra(AlarmScheduler.EXTRA_ALARM_ID)
         if (alarmId == null) {
             android.util.Log.e(TAG, "No alarm ID provided")
             finish()
@@ -86,21 +88,21 @@ class AlarmTriggerActivity : AppCompatActivity() {
         }
 
         // Load alarm details
-        val repository = AlarmRepository(this)
-        alarm = repository.getAlarm(alarmId!!)
-
-        if (alarm == null) {
+        val loadedAlarm = alarmRepository.getAlarm(alarmId)
+        if (loadedAlarm == null) {
             android.util.Log.e(TAG, "Alarm not found: $alarmId")
             finish()
             return
         }
 
-        // Display alarm info
-        alarmNameText.text = alarm!!.name
-        alarmTimeText.text = alarm!!.message
+        alarm = loadedAlarm
 
-        // Initialize wake tasks
-        wakeTaskManager = WakeTaskManager(this)
+        // Display alarm info
+        alarmNameText.text = alarm.name
+        alarmTimeText.text = alarm.message
+
+        // Initialize wake task manager with alarm
+        wakeTaskManager = WakeTaskManager(this, alarm)
         setupWakeTasks()
 
         // Dismiss button initially disabled if tasks exist
@@ -111,14 +113,13 @@ class AlarmTriggerActivity : AppCompatActivity() {
 
         updateTaskProgress()
 
+        // Handle back button
         onBackPressedDispatcher.addCallback(
             this,
             object : OnBackPressedCallback(true) {
-
                 override fun handleOnBackPressed() {
                     if (dismissButton.isEnabled) {
                         dismissAlarm()
-                        finish()
                     } else {
                         android.widget.Toast.makeText(
                             this@AlarmTriggerActivity,
@@ -129,7 +130,6 @@ class AlarmTriggerActivity : AppCompatActivity() {
                 }
             }
         )
-
     }
 
     /**
@@ -161,28 +161,41 @@ class AlarmTriggerActivity : AppCompatActivity() {
      *
      * WHY: Tasks must be created, initialized, and displayed.
      * Each task gets its own view in the task container.
+     *
+     * NOW USES: WakeTaskManager to get enabled tasks (factory pattern)
      */
     private fun setupWakeTasks() {
-        val tasks = wakeTaskManager.createEnabledTasks()
-
-        if (tasks.isEmpty()) {
+        // Check if any tasks are enabled
+        if (!wakeTaskManager.hasAnyTaskEnabled()) {
             taskProgressText.text = "No wake tasks configured"
+            android.util.Log.d(TAG, "No wake tasks enabled for this alarm")
             return
         }
 
+        // Get enabled tasks from manager
+        val tasks = wakeTaskManager.getEnabledTasks()
+
+        if (tasks.isEmpty()) {
+            taskProgressText.text = "No wake tasks available"
+            android.util.Log.w(TAG, "Wake tasks enabled but none could be created")
+            return
+        }
+
+        android.util.Log.d(TAG, "Setting up ${tasks.size} wake task(s)")
         taskProgressText.text = "Complete ${tasks.size} task(s) to reduce alarm volume"
 
+        // Initialize and display each task
         for ((index, task) in tasks.withIndex()) {
             // Initialize task with completion callback
-            task.initialize(this) {
+            task.initialize(this, alarm) {
                 onTaskCompleted(index)
             }
 
             // Create and add task view
-            val taskView = task.createView(taskContainer)
-            taskContainer.addView(taskView)
+            val view = task.createView(taskContainer)
+            taskContainer.addView(view)
 
-            // Add divider between tasks (except after last)
+            // Add divider between tasks (except after last one)
             if (index < tasks.size - 1) {
                 val divider = View(this).apply {
                     layoutParams = LinearLayout.LayoutParams(
@@ -200,7 +213,10 @@ class AlarmTriggerActivity : AppCompatActivity() {
         }
 
         // Start all tasks
-        activeTasks.forEach { it.start() }
+        activeTasks.forEach { task ->
+            task.start()
+            android.util.Log.d(TAG, "Started task: ${task.getName()}")
+        }
     }
 
     /**
@@ -212,6 +228,11 @@ class AlarmTriggerActivity : AppCompatActivity() {
      * @param taskIndex Index of completed task
      */
     private fun onTaskCompleted(taskIndex: Int) {
+        if (completedTasks.contains(taskIndex)) {
+            // Already completed, avoid duplicate processing
+            return
+        }
+
         completedTasks.add(taskIndex)
         android.util.Log.d(TAG, "Task $taskIndex completed (${completedTasks.size}/${activeTasks.size})")
 
@@ -219,9 +240,16 @@ class AlarmTriggerActivity : AppCompatActivity() {
 
         // Reduce volume after first task completion
         if (completedTasks.size == 1) {
-            val audioController = AudioController(this, com.reliablealarm.app.config.ReliabilityConfig(this))
-            audioController.reduceVolumeAfterTask()
-            android.util.Log.d(TAG, "Volume reduced after task completion")
+            try {
+                val audioController = AudioController(
+                    this,
+                    com.reliablealarm.app.config.ReliabilityConfig(this)
+                )
+                audioController.reduceVolumeAfterTask()
+                android.util.Log.d(TAG, "Volume reduced after task completion")
+            } catch (e: Exception) {
+                android.util.Log.e(TAG, "Failed to reduce volume", e)
+            }
         }
 
         // Enable dismiss button when all tasks complete
@@ -230,6 +258,7 @@ class AlarmTriggerActivity : AppCompatActivity() {
             dismissButton.text = "Dismiss Alarm"
             taskProgressText.text = "All tasks completed! ✓"
             taskProgressText.setTextColor(0xFF4CAF50.toInt())
+            android.util.Log.d(TAG, "All tasks completed!")
         }
     }
 
@@ -257,7 +286,6 @@ class AlarmTriggerActivity : AppCompatActivity() {
         android.util.Log.d(TAG, "Alarm dismissed after ${elapsedTime}ms (quick: $quickDismissal)")
 
         // Stop alarm service
-        // Service will handle auto re-ring if needed
         stopAlarmService(quickDismissal)
 
         finish()
@@ -269,23 +297,9 @@ class AlarmTriggerActivity : AppCompatActivity() {
      * @param quickDismissal Whether alarm was dismissed quickly (for auto re-ring)
      */
     private fun stopAlarmService(quickDismissal: Boolean) {
-        // Note: We can't directly call service method
-        // Instead, send broadcast that service listens for
-        val intent = android.content.Intent(this, AlarmService::class.java).apply {
-            action = "STOP_ALARM"
-            putExtra("quick_dismissal", quickDismissal)
-        }
-
-        // Alternatively: just stop service and it will clean up
+        // Stop the service - it will handle cleanup
         stopService(android.content.Intent(this, AlarmService::class.java))
     }
-
-    /**
-     * Prevent back button from dismissing alarm.
-     *
-     * WHY: User must complete wake tasks before dismissing.
-     * Accidental back press should not dismiss alarm.
-     */
 
     /**
      * Handle activity pause.
@@ -294,6 +308,7 @@ class AlarmTriggerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         activeTasks.forEach { it.pause() }
+        android.util.Log.d(TAG, "Tasks paused")
     }
 
     /**
@@ -303,6 +318,7 @@ class AlarmTriggerActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         activeTasks.forEach { it.resume() }
+        android.util.Log.d(TAG, "Tasks resumed")
     }
 
     /**
@@ -312,8 +328,10 @@ class AlarmTriggerActivity : AppCompatActivity() {
      */
     override fun onDestroy() {
         super.onDestroy()
+        android.util.Log.d(TAG, "Cleaning up ${activeTasks.size} tasks")
         activeTasks.forEach { it.cleanup() }
         activeTasks.clear()
+        completedTasks.clear()
     }
 
     companion object {

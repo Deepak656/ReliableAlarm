@@ -2,6 +2,7 @@ package com.reliablealarm.app.waketasks
 
 import android.content.Context
 import android.view.ViewGroup
+import com.reliablealarm.app.domain.models.Alarm
 
 /**
  * Interface for wake-up enforcement tasks.
@@ -35,7 +36,7 @@ interface WakeTask {
      * @param context Application context
      * @param onComplete Callback when task completes successfully
      */
-    fun initialize(context: Context, onComplete: () -> Unit)
+    fun initialize(context: Context, alarm: Alarm, onComplete: () -> Unit)
 
     /**
      * Create UI view for task.

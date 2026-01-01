@@ -2,27 +2,11 @@ package com.reliablealarm.app.domain
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.reliablealarm.app.domain.models.Alarm
+import com.reliablealarm.app.waketasks.TaskConfig
 
-/**
- * Repository for alarm persistence.
- *
- * WHY: Single source of truth for all alarm data.
- * Uses SharedPreferences for:
- * - Instant read/write (no database overhead)
- * - Atomic updates (no race conditions)
- * - Survives app restarts
- * - Survives process killing
- * - Simple JSON serialization
- *
- * Thread-safety: All operations are synchronized on prefs object.
- *
- * Alternative considered: Room database
- * Rejected because: SharedPreferences is faster for small datasets,
- * and we don't need complex queries.
- */
 class AlarmRepository(context: Context) {
 
     private val prefs: SharedPreferences = context.getSharedPreferences(
@@ -30,14 +14,51 @@ class AlarmRepository(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    private val gson = Gson()
+    /**
+     * ---- POLYMORPHIC SUPPORT FOR TaskConfig ----
+     * Gson can't deserialize sealed classes automatically,
+     * so we manually write a type discriminator.
+     */
+
+    private val taskConfigSerializer = JsonSerializer<TaskConfig> { src, _, context ->
+        val obj = context.serialize(src).asJsonObject
+
+        when (src) {
+            is TaskConfig.MathConfig -> obj.addProperty("type", "math")
+            is TaskConfig.StepConfig -> obj.addProperty("type", "steps")
+            is TaskConfig.ShakeConfig -> obj.addProperty("type", "shake")
+            is TaskConfig.QrConfig -> obj.addProperty("type", "qr")
+            is TaskConfig.TypingConfig -> obj.addProperty("type", "typing")
+            is TaskConfig.TapTaskConfig -> obj.addProperty("type", "tap")
+            is TaskConfig.ColorBallsConfig -> obj.addProperty("type", "colorballs")
+        }
+
+        obj
+    }
+
+    private val taskConfigDeserializer = JsonDeserializer<TaskConfig> { json, _, context ->
+        val obj = json.asJsonObject
+        val type = obj["type"]?.asString
+
+        return@JsonDeserializer when (type) {
+            "math" -> context.deserialize(obj, TaskConfig.MathConfig::class.java)
+            "steps" -> context.deserialize(obj, TaskConfig.StepConfig::class.java)
+            "shake" -> context.deserialize(obj, TaskConfig.ShakeConfig::class.java)
+            "qr" -> context.deserialize(obj, TaskConfig.QrConfig::class.java)
+            "typing" -> context.deserialize(obj, TaskConfig.TypingConfig::class.java)
+            "tap" -> context.deserialize(obj, TaskConfig.TapTaskConfig::class.java)
+            "colorballs" -> context.deserialize(obj, TaskConfig.ColorBallsConfig::class.java)
+            else -> null
+        }
+    }
+
+    private val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(TaskConfig::class.java, taskConfigSerializer)
+        .registerTypeAdapter(TaskConfig::class.java, taskConfigDeserializer)
+        .create()
 
     /**
      * Save or update an alarm.
-     * WHY: Upsert pattern simplifies caller code.
-     *
-     * @param alarm Alarm to save
-     * @return Updated alarm with current timestamp
      */
     fun saveAlarm(alarm: Alarm): Alarm {
         val alarms = getAllAlarms().toMutableList()
@@ -57,10 +78,6 @@ class AlarmRepository(context: Context) {
 
     /**
      * Get alarm by ID.
-     * WHY: Needed when alarm triggers to get full alarm details.
-     *
-     * @param id Alarm ID
-     * @return Alarm or null if not found
      */
     fun getAlarm(id: String): Alarm? {
         return getAllAlarms().firstOrNull { it.id == id }
@@ -68,9 +85,6 @@ class AlarmRepository(context: Context) {
 
     /**
      * Get all alarms.
-     * WHY: UI needs to display all alarms, watchdog needs to verify all.
-     *
-     * @return List of all alarms, empty if none exist
      */
     fun getAllAlarms(): List<Alarm> {
         val json = prefs.getString(KEY_ALARMS, null) ?: return emptyList()
@@ -78,45 +92,29 @@ class AlarmRepository(context: Context) {
             val type = object : TypeToken<List<Alarm>>() {}.type
             gson.fromJson(json, type) ?: emptyList()
         } catch (e: Exception) {
-            // Corrupted data, return empty and log
             android.util.Log.e(TAG, "Failed to parse alarms", e)
             emptyList()
         }
     }
 
     /**
-     * Get all enabled alarms.
-     * WHY: Scheduler only needs to register enabled alarms.
-     *
-     * @return List of enabled alarms
+     * Get enabled alarms.
      */
-    fun getEnabledAlarms(): List<Alarm> {
-        return getAllAlarms().filter { it.isEnabled }
-    }
+    fun getEnabledAlarms(): List<Alarm> =
+        getAllAlarms().filter { it.isEnabled }
 
     /**
-     * Delete alarm by ID.
-     * WHY: User can remove unwanted alarms.
-     *
-     * @param id Alarm ID to delete
-     * @return true if deleted, false if not found
+     * Delete alarm.
      */
     fun deleteAlarm(id: String): Boolean {
         val alarms = getAllAlarms().toMutableList()
         val removed = alarms.removeIf { it.id == id }
-        if (removed) {
-            saveAllAlarms(alarms)
-        }
+        if (removed) saveAllAlarms(alarms)
         return removed
     }
 
     /**
-     * Toggle alarm enabled state.
-     * WHY: Quick enable/disable without full edit.
-     *
-     * @param id Alarm ID
-     * @param enabled New enabled state
-     * @return Updated alarm or null if not found
+     * Toggle enable.
      */
     fun toggleAlarm(id: String, enabled: Boolean): Alarm? {
         val alarm = getAlarm(id) ?: return null
@@ -124,11 +122,7 @@ class AlarmRepository(context: Context) {
     }
 
     /**
-     * Update alarm last triggered time.
-     * WHY: Track when alarm last fired for statistics.
-     *
-     * Note: This is stored separately from main alarm data
-     * to avoid conflicts with user edits.
+     * Last triggered tracking.
      */
     fun updateLastTriggered(id: String, time: Long) {
         prefs.edit()
@@ -136,26 +130,18 @@ class AlarmRepository(context: Context) {
             .apply()
     }
 
-    /**
-     * Get alarm last triggered time.
-     */
-    fun getLastTriggered(id: String): Long {
-        return prefs.getLong("last_triggered_$id", 0)
-    }
+    fun getLastTriggered(id: String): Long =
+        prefs.getLong("last_triggered_$id", 0)
 
     /**
-     * Clear all alarms.
-     * WHY: For testing or reset functionality.
+     * Clear everything.
      */
     fun clearAll() {
         prefs.edit().clear().apply()
     }
 
     /**
-     * Save all alarms at once.
-     * WHY: Atomic write operation.
-     *
-     * Private because external callers should use saveAlarm().
+     * Internal save list.
      */
     private fun saveAllAlarms(alarms: List<Alarm>) {
         val json = gson.toJson(alarms)
