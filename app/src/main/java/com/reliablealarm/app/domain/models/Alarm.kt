@@ -30,10 +30,9 @@ data class Alarm(
     val repeatSaturday: Boolean = false,
     val repeatSunday: Boolean = false,
     val isEnabled: Boolean = true,
-    // ⭐ NEW ⭐
     val wakeTasks: List<String> = emptyList(),
 
-    // ⭐ NEW ⭐ keyed by WakeTaskType.key
+    //keyed by WakeTaskType.key
     val taskSettings: Map<String, TaskConfig> = emptyMap(),
     val createdAt: Long = System.currentTimeMillis(),
     val lastModified: Long = System.currentTimeMillis()

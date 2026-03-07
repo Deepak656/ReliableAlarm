@@ -49,6 +49,8 @@ class AlarmAdapter(
         private val timeText: TextView = itemView.findViewById(R.id.alarmTime)
         private val nameText: TextView = itemView.findViewById(R.id.alarmName)
         private val daysText: TextView = itemView.findViewById(R.id.alarmDays)
+        private val ringsInText: TextView = itemView.findViewById(R.id.alarmRingsIn)
+
         private val enableSwitch: SwitchCompat = itemView.findViewById(R.id.alarmEnabled)
         private val editButton: ImageButton = itemView.findViewById(R.id.editButton)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
@@ -58,6 +60,19 @@ class AlarmAdapter(
             nameText.text = alarm.name
             daysText.text = alarm.getFormattedDays()
 
+            if (alarm.isEnabled) {
+                val msUntil = alarm.getNextTriggerTime() - System.currentTimeMillis()
+                val hours = msUntil / (1000 * 60 * 60)
+                val minutes = (msUntil % (1000 * 60 * 60)) / (1000 * 60)
+                ringsInText.text = when {
+                    hours > 0 -> "rings in ${hours}h ${minutes}m"
+                    minutes > 0 -> "rings in ${minutes}m"
+                    else -> "ringing soon"
+                }
+                ringsInText.visibility = View.VISIBLE
+            } else {
+                ringsInText.visibility = View.GONE
+            }
             // Set switch without triggering listener
             enableSwitch.setOnCheckedChangeListener(null)
             enableSwitch.isChecked = alarm.isEnabled
@@ -70,6 +85,7 @@ class AlarmAdapter(
             timeText.alpha = alpha
             nameText.alpha = alpha
             daysText.alpha = alpha
+            ringsInText.alpha = alpha
 
             // Click whole card to edit
             itemView.setOnClickListener {

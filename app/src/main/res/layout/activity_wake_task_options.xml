@@ -1,335 +1,858 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/background_main">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:paddingBottom="32dp">
 
-        <!-- Math Task -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Math Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
-
-        <Switch
-            android:id="@+id/mathEnabledSwitch"
+        <!-- ── MATH ─────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable math problems"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Number of problems"
-            android:layout_marginTop="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <SeekBar
-            android:id="@+id/mathCountSeek"
+                <!-- Header row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_math"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Math"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Math Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Solve problems to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/mathEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Slider row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Number of problems"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/mathCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 problems"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/mathCountSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="9"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/mathPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── WALKING ────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="9"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <TextView
-            android:id="@+id/mathCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 problems"
-            android:layout_gravity="center"/>
-        <Button
-            android:id="@+id/mathPreviewBtn"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_walk"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Walk"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Walking Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Walk steps to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/stepEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Required steps"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/stepCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20 steps"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/stepCountSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="19"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/stepPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── SHAKE ──────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preview Math Task"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <!-- Step Task -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Walking Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <Switch
-            android:id="@+id/stepEnabledSwitch"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_shake"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Shake"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shake Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Shake phone to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/shakeEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Duration"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/shakeDurationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 seconds"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/shakeDurationSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="11"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Intensity"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/shakeIntensityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Level 5"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/shakeIntensitySeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="9"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/shakePreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── QR / BARCODE ───────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable step counter"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Required steps"
-            android:layout_marginTop="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <SeekBar
-            android:id="@+id/stepCountSeek"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_qr"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="QR"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="QR / Barcode Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Scan a code to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/qrEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Number of codes"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/qrCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 code"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/qrCountSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="4"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/qrPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── TYPING ──────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="19"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <TextView
-            android:id="@+id/stepCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20 steps"
-            android:layout_gravity="center"/>
-        <Button
-            android:id="@+id/stepPreviewBtn"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_typing"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Typing"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Typing Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Type a passage to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/typingEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Paragraphs"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/typingParagraphText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 paragraph"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/typingParagraphSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="4"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/typingPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── TAP ────────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preview Step Task"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <!-- Shake Task -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shake Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <Switch
-            android:id="@+id/shakeEnabledSwitch"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_tap"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Tap"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tap Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tap repeatedly to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
+
+                    </LinearLayout>
+
+                    <Switch
+                        android:id="@+id/tapEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Required taps"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
+
+                    <TextView
+                        android:id="@+id/tapCountText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50 taps"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
+
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/tapCountSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="95"
+                    android:layout_marginBottom="16dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/tapPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── COLOR BALLS ────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable shake detection"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/surface_card">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Duration (seconds)"
-            android:layout_marginTop="16dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <SeekBar
-            android:id="@+id/shakeDurationSeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="11"
-            android:layout_marginTop="8dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
 
-        <TextView
-            android:id="@+id/shakeDurationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10 seconds"
-            android:layout_gravity="center"/>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_game"
+                        android:padding="6dp"
+                        android:background="@drawable/bubble_circle"
+                        app:tint="@color/md_theme_primary"
+                        android:contentDescription="Color Balls"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Intensity"
-            android:layout_marginTop="16dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
 
-        <SeekBar
-            android:id="@+id/shakeIntensitySeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="9"
-            android:layout_marginTop="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Color Balls Challenge"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"/>
 
-        <TextView
-            android:id="@+id/shakeIntensityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Level 5"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"/>
-        <Button
-            android:id="@+id/shakePreviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview Shake Task"
-            android:layout_marginTop="8dp"/>
-        <!-- ================= QR / BARCODE TASK ================= -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sort colored balls to dismiss"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_tertiary"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QR / Barcode Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
+                    </LinearLayout>
 
-        <Switch
-            android:id="@+id/qrEnabledSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable QR scan task"
-            android:layout_marginTop="8dp"/>
+                    <Switch
+                        android:id="@+id/colorBallsEnabledSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Number of codes"
-            android:layout_marginTop="16dp"/>
+                </LinearLayout>
 
-        <SeekBar
-            android:id="@+id/qrCountSeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="4"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_main"
+                    android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:id="@+id/qrCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1 code"
-            android:layout_gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="4dp">
 
-        <Button
-            android:id="@+id/qrPreviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview QR Task"
-            android:layout_marginTop="8dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Rounds"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_secondary"/>
 
+                    <TextView
+                        android:id="@+id/colorBallsRoundsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 rounds"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_primary"/>
 
-        <!-- ================= TYPING TASK ================= -->
+                </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Typing Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
+                <SeekBar
+                    android:id="@+id/colorBallsRoundsSeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="9"
+                    android:layout_marginBottom="16dp"/>
 
-        <Switch
-            android:id="@+id/typingEnabledSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable typing task"
-            android:layout_marginTop="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/colorBallsPreviewBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Preview"
+                    android:textSize="14sp"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/md_theme_primary"
+                    android:textColor="@color/md_theme_primary"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Paragraphs"
-            android:layout_marginTop="16dp"/>
-
-        <SeekBar
-            android:id="@+id/typingParagraphSeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="4"/>
-
-        <TextView
-            android:id="@+id/typingParagraphText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1 paragraph"
-            android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/typingPreviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview Typing Task"
-            android:layout_marginTop="8dp"/>
-
-
-        <!-- ================= TAP TASK ================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
-
-        <Switch
-            android:id="@+id/tapEnabledSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable tap task"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Required taps"
-            android:layout_marginTop="16dp"/>
-
-        <SeekBar
-            android:id="@+id/tapCountSeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="95"/>
-
-        <TextView
-            android:id="@+id/tapCountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="50 taps"
-            android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/tapPreviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview Tap Task"
-            android:layout_marginTop="8dp"/>
-
-
-        <!-- ================= COLOR BALLS TASK ================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Color Balls Challenge"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
-
-        <Switch
-            android:id="@+id/colorBallsEnabledSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enable color balls game"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rounds"
-            android:layout_marginTop="16dp"/>
-
-        <SeekBar
-            android:id="@+id/colorBallsRoundsSeek"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="9"/>
-
-        <TextView
-            android:id="@+id/colorBallsRoundsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 rounds"
-            android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/colorBallsPreviewBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Preview Color Balls Task"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

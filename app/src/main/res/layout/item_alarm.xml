@@ -53,6 +53,15 @@
                 android:text="Mon, Tue, Wed, Thu, Fri"
                 android:textSize="@dimen/text_caption"
                 android:textColor="@color/text_tertiary"/>
+            <!-- Rings in -->
+            <TextView
+                android:id="@+id/alarmRingsIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="@dimen/text_caption"
+                android:textColor="@color/md_theme_primary"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
