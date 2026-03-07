@@ -30,7 +30,7 @@ class StreakHistoryActivity : AppCompatActivity() {
     private lateinit var alarmSpinner: android.widget.Spinner
     private lateinit var heroStreakCard: MaterialCardView
     private lateinit var currentStreakNumber: TextView
-    private lateinit var streakFireEmoji: TextView
+    private lateinit var streakFireEmoji: android.widget.ImageView
     private lateinit var streakMessage: TextView
     private lateinit var longestStreakNumber: TextView
     private lateinit var successRateNumber: TextView

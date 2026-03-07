@@ -128,13 +128,11 @@ class MainActivity : AppCompatActivity() {
                     false // Don't select, just navigate
                 }
                 R.id.nav_tasks -> {
-                    // TODO: Navigate to tasks
-                    Toast.makeText(this, "Tasks coming soon", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, WakeTaskOptionsActivity::class.java))
                     false
                 }
                 R.id.nav_reliability -> {
-                    // TODO: Navigate to reliability score
-                    Toast.makeText(this, "Reliability score coming soon", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, ReliabilityOptionsActivity::class.java))
                     false
                 }
                 else -> false
@@ -166,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         val sortedActiveAlarms = activeAlarms.sortedBy { getNextOccurrence(it) }
 
         // Update alarm count
-        alarmCountText.text = "⏰ ${activeAlarms.size} Active Alarm${if (activeAlarms.size != 1) "s" else ""}"
+        alarmCountText.text = "${activeAlarms.size} Active Alarm${if (activeAlarms.size != 1) "s" else ""}"
 
         // Load streak info
         loadStreakInfo(allAlarms)
@@ -195,7 +193,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadStreakInfo(alarms: List<Alarm>) {
         if (alarms.isEmpty()) {
-            streakInfoText.text = "🔥 Start your streak today!"
+            streakInfoText.text = "Start your streak today!"
             return
         }
 
@@ -205,9 +203,9 @@ class MainActivity : AppCompatActivity() {
         } ?: 0
 
         val streakText = when {
-            maxStreak == 0 -> "🔥 Start your streak today!"
-            maxStreak == 1 -> "🔥 1 day streak - Keep going!"
-            else -> "🔥 $maxStreak day streak - You're on fire!"
+            maxStreak == 0 -> "Start your streak today!"
+            maxStreak == 1 -> "1 day streak - Keep going!"
+            else -> "$maxStreak day streak - You're on fire!"
         }
 
         streakInfoText.text = streakText
@@ -283,8 +281,8 @@ class MainActivity : AppCompatActivity() {
         inactiveAlarmsSection.visibility = View.GONE
         streakPreviewContainer.visibility = View.GONE
 
-        alarmCountText.text = "⏰ No Alarms Yet"
-        streakInfoText.text = "🔥 Create your first alarm to start!"
+        alarmCountText.text = "No Alarms Yet"
+        streakInfoText.text = "Create your first alarm to start!"
     }
 
     private fun hideEmptyState() {

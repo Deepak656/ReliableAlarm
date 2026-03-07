@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🔥 Your Streak"
+                    android:text="Your Streak"
                     android:textSize="@dimen/text_title"
                     android:textColor="@color/text_primary"
                     android:textStyle="bold"
@@ -38,7 +38,7 @@
                     android:id="@+id/alarmSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="@drawable/spinner_background"
+                    android:background="@android:color/white"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"/>
 
@@ -90,13 +90,13 @@
                         android:orientation="horizontal"
                         android:gravity="center_vertical">
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/streakFireEmoji"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🔥"
-                            android:textSize="56sp"
-                            android:layout_marginEnd="@dimen/spacing_m"/>
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:src="@drawable/ic_fire"
+                            android:layout_marginEnd="@dimen/spacing_m"
+                            android:contentDescription="streak fire"/>
 
                         <TextView
                             android:id="@+id/currentStreakNumber"
@@ -121,7 +121,7 @@
                         android:id="@+id/streakMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Keep going! 💪"
+                        android:text="Keep going!"
                         android:textSize="@dimen/text_body"
                         android:textColor="@color/text_secondary"
                         android:layout_marginTop="@dimen/spacing_m"
@@ -156,12 +156,13 @@
                         android:padding="16dp"
                         android:gravity="center">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🏆"
-                            android:textSize="32sp"
-                            android:layout_marginBottom="@dimen/spacing_s"/>
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_streak"
+                            android:layout_marginBottom="@dimen/spacing_s"
+                            app:tint="@color/streak_gold"
+                            android:contentDescription="best streak"/>
 
                         <TextView
                             android:id="@+id/longestStreakNumber"
@@ -201,12 +202,13 @@
                         android:padding="16dp"
                         android:gravity="center">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="✅"
-                            android:textSize="32sp"
-                            android:layout_marginBottom="@dimen/spacing_s"/>
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_check"
+                            android:layout_marginBottom="@dimen/spacing_s"
+                            app:tint="@color/success_green"
+                            android:contentDescription="success rate"/>
 
                         <TextView
                             android:id="@+id/successRateNumber"
@@ -248,8 +250,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📅 Last 90 Days"
-                        android:textSize="@dimen/text_subtitle"
+                        android:text="Last 90 Days"
+                        android:drawableStart="@drawable/ic_alarm"
+                        android:drawablePadding="@dimen/spacing_s"                        android:textSize="@dimen/text_subtitle"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold"
                         android:layout_marginBottom="@dimen/spacing_m"/>
@@ -286,7 +289,7 @@
                             <View
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:background="@drawable/streak_cell_success"
+                                android:background="@android:color/holo_green_dark"
                                 android:layout_marginEnd="@dimen/spacing_xs"/>
 
                             <TextView
@@ -307,7 +310,7 @@
                             <View
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:background="@drawable/streak_cell_missed"
+                                android:background="@android:color/holo_red_dark"
                                 android:layout_marginEnd="@dimen/spacing_xs"/>
 
                             <TextView
@@ -327,7 +330,7 @@
                             <View
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:background="@drawable/streak_cell_empty"
+                                android:background="@android:color/darker_gray"
                                 android:layout_marginEnd="@dimen/spacing_xs"/>
 
                             <TextView
@@ -355,12 +358,13 @@
                 android:padding="@dimen/spacing_xl"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🌟"
-                    android:textSize="64sp"
-                    android:layout_marginBottom="@dimen/spacing_m"/>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_fire"
+                    android:layout_marginBottom="@dimen/spacing_m"
+                    app:tint="@color/streak_fire"
+                    android:contentDescription="start journey"/>
 
                 <TextView
                     android:layout_width="wrap_content"

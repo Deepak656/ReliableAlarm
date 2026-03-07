@@ -3,158 +3,152 @@ package com.reliablealarm.app.config
 import android.content.Context
 import android.content.SharedPreferences
 
-/**
- * Configuration for wake-up enforcement tasks.
- * User can enable/disable each task and configure parameters.
- *
- * WHY: Plugin system allows flexible combinations of wake tasks.
- * Users with different needs can customize wake-up difficulty.
- *
- * DEFAULT: All tasks ENABLED with moderate difficulty.
- *
- * Storage: SharedPreferences for instant access.
- */
 class WakeTaskConfig(context: Context) {
 
-    private val prefs: SharedPreferences = context.getSharedPreferences(
-        "wake_task_config",
-        Context.MODE_PRIVATE
-    )
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences("wake_task_config", Context.MODE_PRIVATE)
 
-    // ==================== Math Task ====================
+    // ==================== MATH ====================
 
-    /**
-     * Enable/disable math task.
-     * WHY: Forces cognitive engagement to dismiss alarm.
-     */
     var mathTaskEnabled: Boolean
         get() = prefs.getBoolean(KEY_MATH_ENABLED, true)
-        set(value) = prefs.edit().putBoolean(KEY_MATH_ENABLED, value).apply()
+        set(v) = prefs.edit().putBoolean(KEY_MATH_ENABLED, v).apply()
 
-    /**
-     * Number of math problems to solve.
-     * Range: 1-10
-     * WHY: More problems = harder to dismiss while groggy.
-     */
     var mathProblemCount: Int
         get() = prefs.getInt(KEY_MATH_COUNT, 3)
-        set(value) = prefs.edit().putInt(KEY_MATH_COUNT, value.coerceIn(1, 10)).apply()
+        set(v) = prefs.edit().putInt(KEY_MATH_COUNT, v.coerceIn(1, 10)).apply()
 
-    /**
-     * Difficulty level: EASY, MEDIUM, HARD
-     * WHY: Allows user to scale cognitive challenge.
-     */
     var mathDifficulty: String
         get() = prefs.getString(KEY_MATH_DIFFICULTY, "MEDIUM") ?: "MEDIUM"
-        set(value) = prefs.edit().putString(KEY_MATH_DIFFICULTY, value).apply()
+        set(v) = prefs.edit().putString(KEY_MATH_DIFFICULTY, v).apply()
 
-    // ==================== Step Task ====================
+    // ==================== STEP ====================
 
-    /**
-     * Enable/disable step walking task.
-     * WHY: Physical movement ensures user gets out of bed.
-     */
     var stepTaskEnabled: Boolean
         get() = prefs.getBoolean(KEY_STEP_ENABLED, true)
-        set(value) = prefs.edit().putBoolean(KEY_STEP_ENABLED, value).apply()
+        set(v) = prefs.edit().putBoolean(KEY_STEP_ENABLED, v).apply()
 
-    /**
-     * Required step count.
-     * Range: 5-100
-     * WHY: Enough to get user moving, not excessive.
-     */
     var stepCount: Int
         get() = prefs.getInt(KEY_STEP_COUNT, 20)
-        set(value) = prefs.edit().putInt(KEY_STEP_COUNT, value.coerceIn(5, 100)).apply()
+        set(v) = prefs.edit().putInt(KEY_STEP_COUNT, v.coerceIn(5, 100)).apply()
 
-    // ==================== Shake Task ====================
+    // ==================== SHAKE ====================
 
-    /**
-     * Enable/disable shake task.
-     * WHY: Vigorous shaking ensures user is physically active.
-     */
     var shakeTaskEnabled: Boolean
         get() = prefs.getBoolean(KEY_SHAKE_ENABLED, true)
-        set(value) = prefs.edit().putBoolean(KEY_SHAKE_ENABLED, value).apply()
+        set(v) = prefs.edit().putBoolean(KEY_SHAKE_ENABLED, v).apply()
 
-    /**
-     * Required shake duration in seconds.
-     * Range: 5-60
-     * WHY: Sustained shaking prevents easy dismissal.
-     */
     var shakeDuration: Int
         get() = prefs.getInt(KEY_SHAKE_DURATION, 10)
-        set(value) = prefs.edit().putInt(KEY_SHAKE_DURATION, value.coerceIn(5, 60)).apply()
+        set(v) = prefs.edit().putInt(KEY_SHAKE_DURATION, v.coerceIn(5, 60)).apply()
 
-    /**
-     * Shake intensity threshold.
-     * Range: 1-10 (higher = more vigorous shaking required)
-     * WHY: Prevents weak shaking from counting.
-     */
     var shakeIntensity: Int
         get() = prefs.getInt(KEY_SHAKE_INTENSITY, 5)
-        set(value) = prefs.edit().putInt(KEY_SHAKE_INTENSITY, value.coerceIn(1, 10)).apply()
+        set(v) = prefs.edit().putInt(KEY_SHAKE_INTENSITY, v.coerceIn(1, 10)).apply()
 
-    // ==================== General ====================
+    // ==================== QR / BARCODE ====================
 
-    /**
-     * Get list of enabled tasks.
-     * WHY: AlarmTriggerActivity needs to know which tasks to show.
-     */
+    var qrTaskEnabled: Boolean
+        get() = prefs.getBoolean(KEY_QR_ENABLED, false)
+        set(v) = prefs.edit().putBoolean(KEY_QR_ENABLED, v).apply()
+
+    var qrCount: Int
+        get() = prefs.getInt(KEY_QR_COUNT, 1)
+        set(v) = prefs.edit().putInt(KEY_QR_COUNT, v.coerceIn(1, 5)).apply()
+
+    // ==================== TYPING ====================
+
+    var typingTaskEnabled: Boolean
+        get() = prefs.getBoolean(KEY_TYPING_ENABLED, false)
+        set(v) = prefs.edit().putBoolean(KEY_TYPING_ENABLED, v).apply()
+
+    var typingParagraphs: Int
+        get() = prefs.getInt(KEY_TYPING_COUNT, 1)
+        set(v) = prefs.edit().putInt(KEY_TYPING_COUNT, v.coerceIn(1, 5)).apply()
+
+    // ==================== TAP ====================
+
+    var tapTaskEnabled: Boolean
+        get() = prefs.getBoolean(KEY_TAP_ENABLED, false)
+        set(v) = prefs.edit().putBoolean(KEY_TAP_ENABLED, v).apply()
+
+    var tapCount: Int
+        get() = prefs.getInt(KEY_TAP_COUNT, 50)
+        set(v) = prefs.edit().putInt(KEY_TAP_COUNT, v.coerceIn(5, 100)).apply()
+
+    // ==================== COLOR BALLS ====================
+
+    var colorBallsTaskEnabled: Boolean
+        get() = prefs.getBoolean(KEY_COLOR_BALLS_ENABLED, false)
+        set(v) = prefs.edit().putBoolean(KEY_COLOR_BALLS_ENABLED, v).apply()
+
+    var colorBallRounds: Int
+        get() = prefs.getInt(KEY_COLOR_BALLS_ROUNDS, 3)
+        set(v) = prefs.edit().putInt(KEY_COLOR_BALLS_ROUNDS, v.coerceIn(1, 10)).apply()
+
+    // ==================== HELPERS ====================
+
     fun getEnabledTasks(): List<String> {
         val enabled = mutableListOf<String>()
+
         if (mathTaskEnabled) enabled.add("MATH")
         if (stepTaskEnabled) enabled.add("STEP")
         if (shakeTaskEnabled) enabled.add("SHAKE")
+        if (qrTaskEnabled) enabled.add("QR")
+        if (typingTaskEnabled) enabled.add("TYPING")
+        if (tapTaskEnabled) enabled.add("TAP")
+        if (colorBallsTaskEnabled) enabled.add("COLOR_BALLS")
+
         return enabled
     }
 
-    /**
-     * Check if any task is enabled.
-     * WHY: If no tasks enabled, alarm can be dismissed immediately.
-     */
     fun hasAnyTaskEnabled(): Boolean {
-        return mathTaskEnabled || stepTaskEnabled || shakeTaskEnabled
+        return getEnabledTasks().isNotEmpty()
     }
 
-    /**
-     * Reset all settings to default.
-     * WHY: Easy recovery if user breaks configuration.
-     */
     fun resetToDefaults() {
         prefs.edit().clear().apply()
     }
 
-    /**
-     * Get summary string for display.
-     * WHY: Shows active tasks in UI.
-     */
     fun getSummary(): String {
+
         val tasks = mutableListOf<String>()
-        if (mathTaskEnabled) tasks.add("$mathProblemCount Math Problems")
+
+        if (mathTaskEnabled) tasks.add("$mathProblemCount Math")
         if (stepTaskEnabled) tasks.add("$stepCount Steps")
         if (shakeTaskEnabled) tasks.add("${shakeDuration}s Shake")
+        if (qrTaskEnabled) tasks.add("$qrCount QR")
+        if (typingTaskEnabled) tasks.add("$typingParagraphs Typing")
+        if (tapTaskEnabled) tasks.add("$tapCount Taps")
+        if (colorBallsTaskEnabled) tasks.add("$colorBallRounds Balls")
 
-        return if (tasks.isEmpty()) {
-            "No tasks enabled"
-        } else {
-            tasks.joinToString(", ")
-        }
+        return if (tasks.isEmpty()) "No tasks enabled"
+        else tasks.joinToString(", ")
     }
 
     companion object {
-        // Math task keys
+
         private const val KEY_MATH_ENABLED = "math_enabled"
         private const val KEY_MATH_COUNT = "math_count"
         private const val KEY_MATH_DIFFICULTY = "math_difficulty"
 
-        // Step task keys
         private const val KEY_STEP_ENABLED = "step_enabled"
         private const val KEY_STEP_COUNT = "step_count"
 
-        // Shake task keys
         private const val KEY_SHAKE_ENABLED = "shake_enabled"
         private const val KEY_SHAKE_DURATION = "shake_duration"
         private const val KEY_SHAKE_INTENSITY = "shake_intensity"
+
+        private const val KEY_QR_ENABLED = "qr_enabled"
+        private const val KEY_QR_COUNT = "qr_count"
+
+        private const val KEY_TYPING_ENABLED = "typing_enabled"
+        private const val KEY_TYPING_COUNT = "typing_count"
+
+        private const val KEY_TAP_ENABLED = "tap_enabled"
+        private const val KEY_TAP_COUNT = "tap_count"
+
+        private const val KEY_COLOR_BALLS_ENABLED = "color_balls_enabled"
+        private const val KEY_COLOR_BALLS_ROUNDS = "color_balls_rounds"
     }
 }

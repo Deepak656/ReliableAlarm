@@ -241,13 +241,7 @@ class AlarmEditActivity : AppCompatActivity() {
     }
 
     private fun showTaskPicker() {
-        val all = WakeTaskType.values()
-        val names = all.map { it.displayName }.toTypedArray()
-
-        AlertDialog.Builder(this)
-            .setTitle("Choose Wake Task")
-            .setItems(names) { _, index ->
-                val taskKey = all[index].key
+        TaskPickerBottomSheet { taskKey ->
 
                 // Add task to selected list
                 if (!selectedTasks.contains(taskKey)) {
@@ -279,8 +273,7 @@ class AlarmEditActivity : AppCompatActivity() {
                 }
 
                 buildTaskGrid()
-            }
-            .show()
+        }.show(supportFragmentManager, "task_picker")
     }
 
     private fun getTaskIcon(key: String): Int {

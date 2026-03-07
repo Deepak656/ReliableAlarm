@@ -3,21 +3,22 @@
 
     <item
         android:id="@+id/nav_streak"
-        android:title="Streak"
-        android:icon="@drawable/ic_streak"/>
+        android:icon="@drawable/ic_fire"
+        android:title="@string/nav_streak" />
+
     <item
         android:id="@+id/nav_alarms"
-        android:title="Alarms"
-        android:icon="@drawable/ic_alarm"/>
+        android:icon="@drawable/ic_alarm"
+        android:title="@string/nav_alarms" />
 
     <item
         android:id="@+id/nav_tasks"
-        android:title="Tasks"
-        android:icon="@drawable/ic_tasks"/>
+        android:icon="@drawable/ic_tasks"
+        android:title="@string/nav_tasks" />
 
     <item
         android:id="@+id/nav_reliability"
-        android:title="Reliability"
-        android:icon="@drawable/ic_shield"/>
+        android:icon="@drawable/ic_shield"
+        android:title="@string/nav_reliability" />
 
 </menu>

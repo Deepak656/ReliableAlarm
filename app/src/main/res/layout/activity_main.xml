@@ -42,7 +42,7 @@
                         android:id="@+id/alarmCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="⏰ 0 Active Alarms"
+                        android:text="0 Active Alarms"
                         android:textSize="@dimen/text_title"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold"/>
@@ -53,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_xs"
-                        android:text="🔥 Wake streak: 0 days"
+                        android:text="Wake streak: 0 days"
                         android:textSize="@dimen/text_body"
                         android:textColor="@color/text_secondary"/>
 
@@ -159,12 +159,12 @@
                 android:padding="@dimen/spacing_xl"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⏰"
-                    android:textSize="64sp"
-                    android:layout_marginBottom="@dimen/spacing_m"/>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_alarm"
+                    android:layout_marginBottom="@dimen/spacing_m"
+                    app:tint="@color/text_tertiary"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,18 +203,17 @@
         app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"/>
 
-    <!-- FLOATING ACTION BUTTON - MUST BE AFTER BOTTOM NAV FOR PROPER LAYERING -->
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_anchor="@id/bottomNav"
-    app:layout_anchorGravity="top|end"
-    android:layout_marginEnd="20dp"
-    android:layout_marginBottom="20dp"
-    android:src="@android:drawable/ic_input_add"
-    app:tint="@android:color/white"
-    app:backgroundTint="@color/md_theme_primary"/>
+    <!-- FLOATING ACTION BUTTON -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="110dp"
+        android:src="@android:drawable/ic_input_add"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/md_theme_primary"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

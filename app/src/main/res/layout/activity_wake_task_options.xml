@@ -44,6 +44,12 @@
             android:layout_height="wrap_content"
             android:text="3 problems"
             android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/mathPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Math Task"
+            android:layout_marginTop="8dp"/>
 
         <!-- Step Task -->
         <TextView
@@ -80,6 +86,12 @@
             android:layout_height="wrap_content"
             android:text="20 steps"
             android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/stepPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Step Task"
+            android:layout_marginTop="8dp"/>
 
         <!-- Shake Task -->
         <TextView
@@ -136,6 +148,187 @@
             android:layout_height="wrap_content"
             android:text="Level 5"
             android:layout_gravity="center"
+            android:layout_marginBottom="32dp"/>
+        <Button
+            android:id="@+id/shakePreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Shake Task"
+            android:layout_marginTop="8dp"/>
+        <!-- ================= QR / BARCODE TASK ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QR / Barcode Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/qrEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable QR scan task"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of codes"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/qrCountSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="4"/>
+
+        <TextView
+            android:id="@+id/qrCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 code"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/qrPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview QR Task"
+            android:layout_marginTop="8dp"/>
+
+
+        <!-- ================= TYPING TASK ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Typing Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/typingEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable typing task"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paragraphs"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/typingParagraphSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="4"/>
+
+        <TextView
+            android:id="@+id/typingParagraphText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 paragraph"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/typingPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Typing Task"
+            android:layout_marginTop="8dp"/>
+
+
+        <!-- ================= TAP TASK ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/tapEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable tap task"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Required taps"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/tapCountSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="95"/>
+
+        <TextView
+            android:id="@+id/tapCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50 taps"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/tapPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Tap Task"
+            android:layout_marginTop="8dp"/>
+
+
+        <!-- ================= COLOR BALLS TASK ================= -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color Balls Challenge"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"/>
+
+        <Switch
+            android:id="@+id/colorBallsEnabledSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable color balls game"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rounds"
+            android:layout_marginTop="16dp"/>
+
+        <SeekBar
+            android:id="@+id/colorBallsRoundsSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="9"/>
+
+        <TextView
+            android:id="@+id/colorBallsRoundsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 rounds"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/colorBallsPreviewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preview Color Balls Task"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"/>
 
     </LinearLayout>

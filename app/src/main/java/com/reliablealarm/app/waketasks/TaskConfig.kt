@@ -31,14 +31,4 @@ sealed class TaskConfig {
         val numberOfround: Int = 5
     ) : TaskConfig()
 
-    data class PopBalloonsConfig(
-        val rounds: Int = 3,
-        val balloonsPerRound: Int = 8
-    ) : TaskConfig()
-
-    data class TargetTapConfig(
-        val rounds: Int = 3,
-        val targetsPerRound: Int = 8
-    ) : TaskConfig()
-
 }

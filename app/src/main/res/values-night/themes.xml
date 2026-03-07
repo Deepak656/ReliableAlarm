@@ -1,16 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.ReliableAlarm" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+    <!-- Base Application Theme -->
+    <style name="Theme.ReliableAlarm" parent="Theme.Material3.DayNight.NoActionBar" >
+
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorPrimaryVariant">@color/md_theme_primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorSecondaryVariant">@color/md_theme_secondary_dark</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/background_main</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowBackground">@color/background_main</item>
+
+        <!-- Material Card Styling -->
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
     </style>
+
+    <!-- Custom Card Style -->
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">@dimen/card_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="cardBackgroundColor">@color/surface_card</item>
+        <item name="contentPadding">@dimen/card_padding</item>
+    </style>
+
+    <!-- Streak Screen Specific Theme -->
+
+    <!-- Custom ActionBar -->
+
+    <!-- Text Styles -->
+
 </resources>

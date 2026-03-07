@@ -66,9 +66,6 @@ class WakeTaskManager(
              "task_typing" -> TypingWakeTask()
              "task_tap" -> TapTask()
              "task_color_balls" -> ColorBallsTask()
-            "task_pop_balloons" -> PopBalloonsTask()
-            "task_target_tap" -> TargetTapTask()
-
             else -> {
                 android.util.Log.w(TAG, "Unknown task type: $taskKey")
                 null

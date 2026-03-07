@@ -49,7 +49,7 @@
         android:layout_marginTop="14dp"
         android:padding="12dp"
         android:elevation="6dp"
-        android:background="@drawable/game_card_bg">
+        android:background="@android:color/transparent">
 
         <GridLayout
             android:id="@+id/colorGrid"

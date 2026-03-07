@@ -42,7 +42,12 @@
         android:theme="@style/Theme.ReliableAlarm"
         android:requestLegacyExternalStorage="false"
         tools:targetApi="31">
-        <activity android:name=".ui.preview.TaskPreviewActivity"/>
+        <activity
+            android:name=".ui.preview.TaskPreviewActivity"
+            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"/>
 
         <!-- Main Entry Point -->
         <activity
@@ -126,13 +131,6 @@
         <activity
 
             android:name=".ui.config.ColorBallsConfigActivity"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:parentActivityName=".ui.AlarmEditActivity" />
-        <!-- Pop Ballons Task Config -->
-        <activity
-            android:name=".ui.config.PopBalloonsConfigActivity"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"

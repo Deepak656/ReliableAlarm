@@ -1,6 +1,7 @@
 package com.reliablealarm.app.ui.preview
 
 import android.os.Bundle
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -10,19 +11,11 @@ import com.reliablealarm.app.config.ReliabilityConfig
 import com.reliablealarm.app.domain.AlarmRepository
 import com.reliablealarm.app.domain.models.Alarm
 import com.reliablealarm.app.system.AudioController
-import com.reliablealarm.app.waketasks.ColorBallsTask
-import com.reliablealarm.app.waketasks.MathWakeTask
-import com.reliablealarm.app.waketasks.QrWakeTask
-import com.reliablealarm.app.waketasks.ShakeWakeTask
-import com.reliablealarm.app.waketasks.StepWakeTask
-import com.reliablealarm.app.waketasks.TapTask
-import com.reliablealarm.app.waketasks.TypingWakeTask
-import com.reliablealarm.app.waketasks.WakeTask
+import com.reliablealarm.app.waketasks.*
 
 class TaskPreviewActivity : AppCompatActivity() {
 
     private lateinit var alarmRepository: AlarmRepository
-    private lateinit var reliabilityConfig: ReliabilityConfig
     private lateinit var audioController: AudioController
 
     private var alarm: Alarm? = null
@@ -32,39 +25,27 @@ class TaskPreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_preview)
 
-        // 👇 Initialize here — NOT in constructor
-        reliabilityConfig = ReliabilityConfig(applicationContext)
-        audioController = AudioController(this, reliabilityConfig)
-
         alarmRepository = AlarmRepository(this)
 
-        val alarmId = intent.getStringExtra("alarm_id")
-        val taskKey = intent.getStringExtra("task_key")
-
-        if (alarmId == null || taskKey == null) {
-            finish()
-            return
+        val taskKey = intent.getStringExtra(EXTRA_TASK_KEY) ?: run {
+            finish(); return
         }
 
-        alarm = alarmRepository.getAlarm(alarmId)
-        if (alarm == null) {
-            finish()
-            return
-        }
+        val alarmId = intent.getStringExtra(EXTRA_ALARM_ID)
+        alarm = alarmId?.let { alarmRepository.getAlarm(it) } ?: Alarm() // 👈 preview mode fallback
 
         val container = findViewById<FrameLayout>(R.id.previewContainer)
         val title = findViewById<TextView>(R.id.previewTitle)
 
-        // Create task
-        wakeTask = createTask(taskKey)
-        if (wakeTask == null) {
-            finish()
-            return
+        wakeTask = WakeTaskFactory.create(taskKey) ?: run {
+            finish(); return
         }
 
+        title.text = "Preview: ${wakeTask!!.getName()}"
+
         wakeTask!!.initialize(
-            this,
-            alarm!!
+            context = this,
+            alarm = alarm!!
         ) {
             finish()
         }
@@ -72,36 +53,34 @@ class TaskPreviewActivity : AppCompatActivity() {
         val view = wakeTask!!.createView(container)
         container.addView(view)
 
-        title.text = "Preview: ${wakeTask!!.getName()}"
+        // start AFTER layout pass (important for sensors & camera tasks)
+        view.viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    wakeTask?.start()
+                }
+            }
+        )
 
-        // Close button
-        findViewById<Button>(R.id.btnClosePreview).setOnClickListener {
-            finish()
-        }
+        findViewById<Button>(R.id.btnClosePreview).setOnClickListener { finish() }
 
-        // 🔇 Stop alarm sound during preview
-        try {
-            audioController.stopAlarm()
-        } catch (_: Exception) {}
-
-        wakeTask!!.start()
+        stopAlarmSoundIfAny()
     }
 
-    private fun createTask(taskKey: String): WakeTask? {
-        return when (taskKey) {
-            "task_math" -> MathWakeTask()
-            "task_steps" -> StepWakeTask()
-            "task_shake" -> ShakeWakeTask()
-            "task_scanqr" -> QrWakeTask()
-            "task_typing" -> TypingWakeTask()
-            "task_tap" -> TapTask()
-            "task_color_balls" -> ColorBallsTask()
-            else -> null
-        }
+    private fun stopAlarmSoundIfAny() {
+        val reliabilityConfig = ReliabilityConfig(applicationContext)
+        audioController = AudioController(this, reliabilityConfig)
+        audioController.stopAlarm()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         wakeTask?.cleanup()
+        super.onDestroy()
+    }
+
+    companion object {
+        const val EXTRA_TASK_KEY = "task_key"
+        const val EXTRA_ALARM_ID = "alarm_id"
     }
 }
