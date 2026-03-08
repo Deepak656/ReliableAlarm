@@ -1,231 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout 
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main">
+    android:background="#F5F3EF">
 
+    <!-- ══ APP BAR ════════════════════════════════════════════ -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="#F5F3EF"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@android:color/transparent">
+            android:layout_height="64dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/spacing_m">
+                android:justificationMode="inter_word">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Streak"
-                    android:textSize="@dimen/text_title"
-                    android:textColor="@color/text_primary"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_s"/>
-
-                <Spinner
-                    android:id="@+id/alarmSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@android:color/white"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"/>
+                    android:textColor="#1C1C1E"
+                    android:fontFamily="sans-serif-medium"/>
 
             </LinearLayout>
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- ══ SCROLLABLE CONTENT ════════════════════════════════ -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_m">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="40dp">
 
-            <!-- Hero Streak Card -->
+            <!-- ── ALARM CHIP SELECTOR ─────────────────────── -->
+            <!-- Replaces the ugly Spinner with horizontal chips -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/alarmChipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:selectionRequired="true"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+
+            </HorizontalScrollView>
+
+            <!-- ── HERO STREAK CARD (dark) ─────────────────── -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/heroStreakCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_m"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/surface_card">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#1C1C1E">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/card_padding"
-                    android:gravity="center">
+                    android:paddingStart="28dp"
+                    android:paddingEnd="28dp"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="28dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Top row: label + fire icon -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Current Streak"
-                        android:textSize="@dimen/text_body"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginBottom="@dimen/spacing_s"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Current Streak"
+                            android:textSize="13sp"
+                            android:textColor="#8E8E93"
+                            android:letterSpacing="0.04"/>
+
+                        <ImageView
+                            android:id="@+id/streakFireEmoji"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_fire"
+                            android:contentDescription="streak fire"
+                            app:tint="#FF5C00"/>
+
+                    </LinearLayout>
+
+                    <!-- The number — this is the HERO -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/streakFireEmoji"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_fire"
-                            android:layout_marginEnd="@dimen/spacing_m"
-                            android:contentDescription="streak fire"/>
+                        android:gravity="bottom"
+                        android:layout_marginBottom="4dp">
 
                         <TextView
                             android:id="@+id/currentStreakNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="@dimen/text_display"
-                            android:textColor="@color/streak_fire"
-                            android:textStyle="bold"/>
+                            android:textSize="72sp"
+                            android:textStyle="bold"
+                            android:textColor="#FF5C00"
+                            android:fontFamily="sans-serif-black"
+                            android:lineSpacingMultiplier="0.9"
+                            android:includeFontPadding="false"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" days"
+                            android:textSize="20sp"
+                            android:textColor="#EBEBF5"
+                            android:layout_marginBottom="14dp"
+                            android:fontFamily="sans-serif-medium"/>
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="days"
-                        android:textSize="@dimen/text_subtitle"
-                        android:textColor="@color/text_tertiary"
-                        android:layout_marginTop="@dimen/spacing_xs"/>
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#2C2C2E"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"/>
 
+                    <!-- Message -->
                     <TextView
                         android:id="@+id/streakMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Keep going!"
-                        android:textSize="@dimen/text_body"
-                        android:textColor="@color/text_secondary"
-                        android:layout_marginTop="@dimen/spacing_m"
-                        android:gravity="center"/>
+                        android:text="Start your first streak tomorrow"
+                        android:textSize="14sp"
+                        android:textColor="#8E8E93"
+                        android:lineSpacingMultiplier="1.3"/>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Stats Row -->
+            <!-- ── STATS ROW ────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/spacing_m"
+                android:layout_marginBottom="12dp"
                 android:weightSum="2">
 
-                <!-- Longest Streak Card -->
+                <!-- Best Streak -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/spacing_s"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation"
-                    app:cardBackgroundColor="@color/surface_card">
+                    android:layout_marginEnd="6dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#EEECE8"
+                    app:cardBackgroundColor="#FFFFFF">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_streak"
-                            android:layout_marginBottom="@dimen/spacing_s"
-                            app:tint="@color/streak_gold"
-                            android:contentDescription="best streak"/>
+                        <!-- Icon in tinted bubble -->
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bubble_circle"
+                            android:backgroundTint="#FFF8E0"
+                            android:gravity="center"
+                            android:layout_marginBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_streak"
+                                app:tint="#FFB800"
+                                android:contentDescription="best streak"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/longestStreakNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="@dimen/text_headline"
-                            android:textColor="@color/streak_gold"
-                            android:textStyle="bold"/>
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="#1C1C1E"
+                            android:fontFamily="sans-serif-black"
+                            android:includeFontPadding="false"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Best Streak"
-                            android:textSize="@dimen/text_caption"
-                            android:textColor="@color/text_tertiary"
-                            android:layout_marginTop="@dimen/spacing_xs"/>
+                            android:text="Best streak"
+                            android:textSize="12sp"
+                            android:textColor="#8E8E93"
+                            android:layout_marginTop="2dp"/>
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Success Rate Card -->
+                <!-- Success Rate -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="@dimen/spacing_s"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:cardElevation="@dimen/card_elevation"
-                    app:cardBackgroundColor="@color/surface_card">
+                    android:layout_marginStart="6dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#EEECE8"
+                    app:cardBackgroundColor="#FFFFFF">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp">
 
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_check"
-                            android:layout_marginBottom="@dimen/spacing_s"
-                            app:tint="@color/success_green"
-                            android:contentDescription="success rate"/>
+                        <!-- Icon in tinted bubble -->
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bubble_circle"
+                            android:backgroundTint="#E6FAF5"
+                            android:gravity="center"
+                            android:layout_marginBottom="12dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_check"
+                                app:tint="#00C48C"
+                                android:contentDescription="success rate"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/successRateNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0%"
-                            android:textSize="@dimen/text_headline"
-                            android:textColor="@color/success_green"
-                            android:textStyle="bold"/>
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            android:textColor="#1C1C1E"
+                            android:fontFamily="sans-serif-black"
+                            android:includeFontPadding="false"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Success Rate"
-                            android:textSize="@dimen/text_caption"
-                            android:textColor="@color/text_tertiary"
-                            android:layout_marginTop="@dimen/spacing_xs"/>
+                            android:text="Success rate"
+                            android:textSize="12sp"
+                            android:textColor="#8E8E93"
+                            android:layout_marginTop="2dp"/>
 
                     </LinearLayout>
 
@@ -233,30 +311,61 @@
 
             </LinearLayout>
 
-            <!-- History Card -->
+            <!-- ── 90-DAY HISTORY CARD ─────────────────────── -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_radius"
-                app:cardElevation="@dimen/card_elevation"
-                app:cardBackgroundColor="@color/surface_card">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#EEECE8"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/card_padding">
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Last 90 Days"
-                        android:drawableStart="@drawable/ic_alarm"
-                        android:drawablePadding="@dimen/spacing_s"                        android:textSize="@dimen/text_subtitle"
-                        android:textColor="@color/text_primary"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="@dimen/spacing_m"/>
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
 
+                        <LinearLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bubble_circle"
+                            android:backgroundTint="#FFF0E8"
+                            android:gravity="center"
+                            android:layout_marginEnd="12dp">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#FF5C00"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Last 90 Days"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1C1C1E"/>
+
+                    </LinearLayout>
+
+                    <!-- Grid -->
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -277,68 +386,77 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/spacing_m"
-                        android:gravity="center">
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_horizontal">
 
+                        <!-- Success -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginEnd="@dimen/spacing_m">
+                            android:gravity="center_vertical"
+                            android:layout_marginEnd="16dp">
 
                             <View
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:background="@android:color/holo_green_dark"
-                                android:layout_marginEnd="@dimen/spacing_xs"/>
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="@drawable/bubble_circle"
+                                android:backgroundTint="#00C48C"
+                                android:layout_marginEnd="6dp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Success"
-                                android:textSize="@dimen/text_small"
-                                android:textColor="@color/text_secondary"/>
+                                android:textSize="12sp"
+                                android:textColor="#48484A"/>
 
                         </LinearLayout>
 
+                        <!-- Missed -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginEnd="@dimen/spacing_m">
+                            android:gravity="center_vertical"
+                            android:layout_marginEnd="16dp">
 
                             <View
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:background="@android:color/holo_red_dark"
-                                android:layout_marginEnd="@dimen/spacing_xs"/>
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="@drawable/bubble_circle"
+                                android:backgroundTint="#FF3B30"
+                                android:layout_marginEnd="6dp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Missed"
-                                android:textSize="@dimen/text_small"
-                                android:textColor="@color/text_secondary"/>
+                                android:textSize="12sp"
+                                android:textColor="#48484A"/>
 
                         </LinearLayout>
 
+                        <!-- No alarm -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
 
                             <View
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:background="@android:color/darker_gray"
-                                android:layout_marginEnd="@dimen/spacing_xs"/>
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:background="@drawable/bubble_circle"
+                                android:backgroundTint="#EFEDE9"
+                                android:layout_marginEnd="6dp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="No alarm"
-                                android:textSize="@dimen/text_small"
-                                android:textColor="@color/text_secondary"/>
+                                android:textSize="12sp"
+                                android:textColor="#48484A"/>
 
                         </LinearLayout>
 
@@ -348,41 +466,53 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Empty State (Initially Hidden) -->
+            <!-- ── EMPTY STATE (hidden by default) ────────── -->
             <LinearLayout
                 android:id="@+id/emptyStateLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="@dimen/spacing_xl"
+                android:paddingTop="48dp"
+                android:paddingBottom="48dp"
                 android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_fire"
-                    android:layout_marginBottom="@dimen/spacing_m"
-                    app:tint="@color/streak_fire"
-                    android:contentDescription="start journey"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Start Your Journey"
-                    android:textSize="@dimen/text_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_s"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wake up on time tomorrow to start building your streak!"
-                    android:textSize="@dimen/text_body"
-                    android:textColor="@color/text_secondary"
+                <LinearLayout
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:background="@drawable/bubble_circle"
+                    android:backgroundTint="#FFF0E8"
                     android:gravity="center"
-                    android:layout_marginBottom="@dimen/spacing_m"/>
+                    android:layout_marginBottom="20dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_fire"
+                        app:tint="#FF5C00"
+                        android:contentDescription="start journey"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No streak yet"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#1C1C1E"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wake up on time tomorrow to start building your streak"
+                    android:textSize="14sp"
+                    android:textColor="#8E8E93"
+                    android:gravity="center"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:lineSpacingMultiplier="1.4"/>
 
             </LinearLayout>
 

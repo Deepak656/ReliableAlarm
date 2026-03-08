@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
-    android:gravity="center_vertical">
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingEnd="12dp">
 
         <TextView
             android:id="@+id/optionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Option Title"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"/>
 
         <TextView
             android:id="@+id/optionDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="4dp"/>
+            android:textSize="12sp"
+            android:textColor="@color/text_tertiary"
+            android:layout_marginTop="2dp"/>
 
     </LinearLayout>
 
-    <Switch
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/optionSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

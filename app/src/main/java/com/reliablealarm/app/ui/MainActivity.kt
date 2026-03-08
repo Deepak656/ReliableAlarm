@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         loadData()
     }
 
+
     private fun initializeRepositories() {
         alarmRepository = AlarmRepository(this)
         alarmScheduler = AlarmScheduler(this)

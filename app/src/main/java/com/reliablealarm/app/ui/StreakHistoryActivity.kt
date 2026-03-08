@@ -21,13 +21,15 @@ import com.reliablealarm.app.domain.AlarmRepository
 import com.reliablealarm.app.domain.StreakRepository
 import com.reliablealarm.app.domain.models.Alarm
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class StreakHistoryActivity : AppCompatActivity() {
 
     private lateinit var streakRepository: StreakRepository
     private lateinit var alarmRepository: AlarmRepository
 
-    private lateinit var alarmSpinner: android.widget.Spinner
+    private lateinit var alarmChipGroup: ChipGroup
     private lateinit var heroStreakCard: MaterialCardView
     private lateinit var currentStreakNumber: TextView
     private lateinit var streakFireEmoji: android.widget.ImageView
@@ -51,11 +53,11 @@ class StreakHistoryActivity : AppCompatActivity() {
         alarmRepository = AlarmRepository(this)
 
         initializeViews()
-        setupAlarmSpinner()
+        setupAlarmChips()
     }
 
     private fun initializeViews() {
-        alarmSpinner = findViewById(R.id.alarmSpinner)
+        alarmChipGroup = findViewById(R.id.alarmChipGroup)
         heroStreakCard = findViewById(R.id.heroStreakCard)
         currentStreakNumber = findViewById(R.id.currentStreakNumber)
         streakFireEmoji = findViewById(R.id.streakFireEmoji)
@@ -66,7 +68,7 @@ class StreakHistoryActivity : AppCompatActivity() {
         emptyStateLayout = findViewById(R.id.emptyStateLayout)
     }
 
-    private fun setupAlarmSpinner() {
+    private fun setupAlarmChips() {
         val alarms = alarmRepository.getAllAlarms()
 
         if (alarms.isEmpty()) {
@@ -74,45 +76,53 @@ class StreakHistoryActivity : AppCompatActivity() {
             return
         }
 
-        val adapter = android.widget.ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            alarms.map { it.name }
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        alarmSpinner.adapter = adapter
-
-        alarmSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
-                loadStreakForAlarm(alarms[position])
+        alarms.forEachIndexed { index, alarm ->
+            val chip = Chip(this).apply {
+                text = alarm.name
+                isCheckable = true
+                isChecked = index == 0
+                chipCornerRadius = resources.getDimensionPixelSize(R.dimen.spacing_xl).toFloat()
+                setChipBackgroundColorResource(
+                    if (index == 0) R.color.accent_orange_light else R.color.surface_elevated
+                )
+                setTextColor(
+                    ContextCompat.getColor(
+                        this@StreakHistoryActivity,
+                        if (index == 0) R.color.accent_orange else R.color.text_secondary
+                    )
+                )
+                setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        setChipBackgroundColorResource(R.color.accent_orange_light)
+                        setTextColor(ContextCompat.getColor(
+                            this@StreakHistoryActivity, R.color.accent_orange
+                        ))
+                        loadStreakForAlarm(alarm)
+                    } else {
+                        setChipBackgroundColorResource(R.color.surface_elevated)
+                        setTextColor(ContextCompat.getColor(
+                            this@StreakHistoryActivity, R.color.text_secondary
+                        ))
+                    }
+                }
             }
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
+            alarmChipGroup.addView(chip)
         }
 
-        if (alarms.isNotEmpty()) {
-            loadStreakForAlarm(alarms[0])
-        }
+        // Load first alarm by default
+        loadStreakForAlarm(alarms[0])
     }
 
     private fun loadStreakForAlarm(alarm: Alarm) {
         val streak = streakRepository.getStreak(alarm.id)
         val confirmations = streakRepository.getConfirmations(alarm.id)
 
-        // Animate stats
         animateStreakCounter(streak.currentStreak)
         animateLongestStreak(streak.longestStreak)
         animateSuccessRate(streak.getSuccessRate())
-
-        // Update motivational message
         updateStreakMessage(streak.currentStreak)
-
-        // Animate fire emoji based on streak
         animateFireEmoji(streak.currentStreak)
-
-        // Display history
         displayHistoryGrid(confirmations)
-
-        // Apply card color based on streak
         applyStreakCardStyle(streak.currentStreak)
     }
 
@@ -125,7 +135,6 @@ class StreakHistoryActivity : AppCompatActivity() {
         }
         animator.start()
 
-        // Bounce animation
         currentStreakNumber.scaleX = 0f
         currentStreakNumber.scaleY = 0f
         currentStreakNumber.animate()
@@ -173,12 +182,11 @@ class StreakHistoryActivity : AppCompatActivity() {
     }
 
     private fun animateFireEmoji(streak: Int) {
-        // Scale animation based on streak
         val scale = when {
             streak >= 30 -> 1.3f
             streak >= 14 -> 1.2f
-            streak >= 7 -> 1.1f
-            else -> 1.0f
+            streak >= 7  -> 1.1f
+            else         -> 1.0f
         }
 
         streakFireEmoji.scaleX = 0.5f
@@ -190,18 +198,15 @@ class StreakHistoryActivity : AppCompatActivity() {
             .setInterpolator(OvershootInterpolator())
             .start()
 
-        // Pulse animation for active streaks
-        if (streak > 0) {
-            startFirePulseAnimation()
-        }
+        if (streak > 0) startFirePulseAnimation()
     }
 
     private fun startFirePulseAnimation() {
-        val pulseAnimator = ObjectAnimator.ofFloat(streakFireEmoji, "scaleX", 1.0f, 1.1f, 1.0f)
-        val pulseAnimatorY = ObjectAnimator.ofFloat(streakFireEmoji, "scaleY", 1.0f, 1.1f, 1.0f)
+        val pulseX = ObjectAnimator.ofFloat(streakFireEmoji, "scaleX", 1.0f, 1.1f, 1.0f)
+        val pulseY = ObjectAnimator.ofFloat(streakFireEmoji, "scaleY", 1.0f, 1.1f, 1.0f)
 
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(pulseAnimator, pulseAnimatorY)
+        animatorSet.playTogether(pulseX, pulseY)
         animatorSet.duration = 1500
         animatorSet.interpolator = AccelerateDecelerateInterpolator()
         animatorSet.startDelay = 1000
@@ -209,15 +214,16 @@ class StreakHistoryActivity : AppCompatActivity() {
     }
 
     private fun updateStreakMessage(streak: Int) {
+        // No emojis — clean text only
         val message = when {
-            streak == 0 -> "Start your journey today! 🌟"
-            streak < 3 -> "Great start! Keep going! 💪"
-            streak < 7 -> "You're building a habit! 🚀"
-            streak < 14 -> "Impressive consistency! ⭐"
-            streak < 30 -> "You're on fire! 🔥"
-            streak < 60 -> "Unstoppable streak! 👑"
-            streak < 100 -> "Legend in the making! 🏆"
-            else -> "Absolute Champion! 🎯"
+            streak == 0  -> "Start your first streak tomorrow"
+            streak < 3   -> "Great start. Keep going."
+            streak < 7   -> "You're building a habit"
+            streak < 14  -> "Impressive consistency"
+            streak < 30  -> "You're on fire"
+            streak < 60  -> "Unstoppable streak"
+            streak < 100 -> "Legend in the making"
+            else         -> "Absolute champion"
         }
 
         streakMessage.text = message
@@ -232,23 +238,20 @@ class StreakHistoryActivity : AppCompatActivity() {
     }
 
     private fun applyStreakCardStyle(streak: Int) {
-        // Apply gradient background for high streaks
         if (streak >= 7) {
-            heroStreakCard.setCardBackgroundColor(
-                ContextCompat.getColor(this, android.R.color.transparent)
-            )
+            heroStreakCard.setCardBackgroundColor(Color.TRANSPARENT)
             heroStreakCard.background = ContextCompat.getDrawable(this, R.drawable.gradient_streak)
-
-            // Change text colors to white for better contrast
             currentStreakNumber.setTextColor(Color.WHITE)
             streakMessage.setTextColor(Color.WHITE)
-            streakFireEmoji.alpha = 1f
         } else {
             heroStreakCard.setCardBackgroundColor(
-                ContextCompat.getColor(this, R.color.surface_card)
+                ContextCompat.getColor(this, R.color.surface_dark)
             )
             currentStreakNumber.setTextColor(
-                ContextCompat.getColor(this, R.color.streak_fire)
+                ContextCompat.getColor(this, R.color.accent_orange)
+            )
+            streakMessage.setTextColor(
+                ContextCompat.getColor(this, R.color.text_tertiary)
             )
         }
     }
@@ -259,7 +262,6 @@ class StreakHistoryActivity : AppCompatActivity() {
         val cellSize = resources.getDimensionPixelSize(R.dimen.streak_cell_size)
         val cellMargin = resources.getDimensionPixelSize(R.dimen.streak_cell_margin)
 
-        // Display last 91 days (13 weeks)
         for (week in 12 downTo 0) {
             for (day in 0 until 7) {
                 val cell = View(this)
@@ -285,12 +287,11 @@ class StreakHistoryActivity : AppCompatActivity() {
 
                 cell.background = ContextCompat.getDrawable(this, drawable)
 
-                // Add scale animation with delay
                 cell.scaleX = 0f
                 cell.scaleY = 0f
                 cell.alpha = 0f
 
-                val delay = (week * 7 + day) * 15L // Stagger animation
+                val delay = (week * 7 + day) * 15L
                 cell.animate()
                     .scaleX(1f)
                     .scaleY(1f)
@@ -316,7 +317,6 @@ class StreakHistoryActivity : AppCompatActivity() {
         emptyStateLayout.visibility = View.VISIBLE
         heroStreakCard.visibility = View.GONE
 
-        // Animate empty state
         emptyStateLayout.alpha = 0f
         emptyStateLayout.translationY = 50f
         emptyStateLayout.animate()

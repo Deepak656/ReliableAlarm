@@ -1,9 +1,12 @@
 package com.reliablealarm.app.ui
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.reliablealarm.app.R
@@ -25,9 +28,9 @@ class AlarmEditActivity : AppCompatActivity() {
     private var existingAlarm: Alarm? = null
 
     private lateinit var timePicker: TimePicker
-    private lateinit var labelEdit: EditText
-    private lateinit var messageEdit: EditText
-    private lateinit var saveButton: Button
+    private lateinit var labelEdit: com.google.android.material.textfield.TextInputEditText
+    private lateinit var messageEdit: com.google.android.material.textfield.TextInputEditText
+    private lateinit var saveButton: com.google.android.material.button.MaterialButton
     private val repeatDays = BooleanArray(7)
     private val repeatLabels = arrayOf("S","M","T","W","T","F","S")
     private val selectedTasks = mutableSetOf<String>()
@@ -120,15 +123,19 @@ class AlarmEditActivity : AppCompatActivity() {
         repeatLabels.forEachIndexed { index, label ->
             val tv = TextView(this).apply {
                 text = label
-                textSize = 16f
-                setPadding(24,24,24,24)
+                textSize = 14f
+                gravity = android.view.Gravity.CENTER
+                val params = LinearLayout.LayoutParams(0,
+                    resources.getDimensionPixelSize(R.dimen.spacing_xl), 1f)
+                params.setMargins(4, 0, 4, 0)
+                layoutParams = params
                 setBackgroundResource(
                     if (repeatDays[index]) R.drawable.repeat_selected
                     else R.drawable.repeat_unselected
                 )
                 setTextColor(
                     if (repeatDays[index]) 0xFFFFFFFF.toInt()
-                    else 0xFF000000.toInt()
+                    else 0xFF888888.toInt()  // grey when unselected, not black
                 )
                 setOnClickListener {
                     repeatDays[index] = !repeatDays[index]
@@ -145,7 +152,7 @@ class AlarmEditActivity : AppCompatActivity() {
             tv.setTextColor(0xFFFFFFFF.toInt())
         } else {
             tv.setBackgroundResource(R.drawable.repeat_unselected)
-            tv.setTextColor(0xFF000000.toInt())
+            tv.setTextColor(0xFF888888.toInt())
         }
     }
 
@@ -159,12 +166,35 @@ class AlarmEditActivity : AppCompatActivity() {
             container.addView(card)
         }
 
-        // Always show the "+ Add Task" button
-        val plus = TextView(this).apply {
-            text = "+ Add Task"
-            textSize = 20f
-            setPadding(40,30,40,30)
-            setBackgroundResource(R.drawable.task_plus)
+        val plus = com.google.android.material.button.MaterialButton(
+            this,
+            null,
+            com.google.android.material.R.attr.materialButtonOutlinedStyle
+        ).apply {
+            text = "Add Wake Task"
+            textSize = 14f
+            icon = androidx.core.content.ContextCompat.getDrawable(
+                this@AlarmEditActivity, R.drawable.ic_tasks
+            )
+            iconGravity = com.google.android.material.button.MaterialButton.ICON_GRAVITY_START
+            iconPadding = resources.getDimensionPixelSize(R.dimen.spacing_s)
+            strokeColor = android.content.res.ColorStateList.valueOf(
+                androidx.core.content.ContextCompat.getColor(
+                    this@AlarmEditActivity, R.color.md_theme_primary
+                )
+            )
+            setTextColor(
+                androidx.core.content.ContextCompat.getColor(
+                    this@AlarmEditActivity, R.color.md_theme_primary
+                )
+            )
+            cornerRadius = resources.getDimensionPixelSize(R.dimen.card_radius)
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                resources.getDimensionPixelSize(R.dimen.spacing_xl)
+            )
+            params.setMargins(0, 16, 0, 0)
+            layoutParams = params
             setOnClickListener { showTaskPicker() }
         }
 
@@ -182,7 +212,7 @@ class AlarmEditActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            params.setMargins(0, 12, 0, 12)
+            params.setMargins(0, 0, 0, 10)
             layoutParams = params
             isClickable = true
             isFocusable = true
@@ -222,8 +252,13 @@ class AlarmEditActivity : AppCompatActivity() {
 
         // Add delete button with click handling
         val deleteButton = ImageView(this).apply {
-            setImageResource(android.R.drawable.ic_menu_delete)
-            layoutParams = LinearLayout.LayoutParams(60, 60)
+            setImageResource(R.drawable.ic_close)
+            imageTintList = android.content.res.ColorStateList.valueOf(
+                androidx.core.content.ContextCompat.getColor(
+                    this@AlarmEditActivity, R.color.text_tertiary
+                )
+            )
+            layoutParams = LinearLayout.LayoutParams(48, 48)
             isClickable = true
             isFocusable = true
             setOnClickListener {
